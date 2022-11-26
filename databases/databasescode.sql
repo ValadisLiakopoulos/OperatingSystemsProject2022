@@ -57,3 +57,4 @@ PRIMARY KEY(lng_guide_AT),
 CONSTRAINT GUIDELNGS 
 FOREIGN KEY(lng_guide_AT) REFERENCES guide(guide_AT));
 
+test
