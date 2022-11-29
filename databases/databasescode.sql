@@ -106,7 +106,7 @@ CREATE TABLE manages
   res_seatnum TINYINT(4) UNSIGNED NOT NULL,
   res_name VARCHAR(20) DEFAULT 'unknown' NOT NULL,
   res_lname VARCHAR(20) DEFAULT 'unknown' NOT NULL,
-  res_isadult ENUM('ADULT','MINOR'),
+  res_isadult ENUM('ADULT','MINOR') NOT NULL,
   PRIMARY KEY(res_seatnum),
   CONSTRAINT TRIPRESERVED
   FOREIGN KEY(res_tr_id) REFERENCES trip(tr_id)
