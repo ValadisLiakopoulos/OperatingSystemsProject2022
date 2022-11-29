@@ -101,10 +101,25 @@ CREATE TABLE manages
   res_name VARCHAR(20) DEFAULT 'unknown' NOT NULL,
   res_lname VARCHAR(20) DEFAULT 'unknown' NOT NULL,
   res_isadult ENUM('ADULT','MINOR'),
+  
   PRIMARY KEY(res_seatnum),
   CONSTRAINT TRIPRESERVED
   FOREIGN KEY(res_tr_id) REFERENCES trip(tr_id)
   ON DELETE CASCADE ON UPDATE CASCADE);
   
+  CREATE TABLE destination
+  (dst_id INT(11) NOT NULL AUTO_INCREMENT,
+   dst_name VARCHAR(50) NOT NULL,
+   dst_descr  TEXT NOT NULL,
+   dst_rtype ENUM('LOCAL','ABROAD'),
+   dst_language VARCHAR(30) NOT NULL,
+   dst_location INT(11) NOT NULL,
+   PRIMARY KEY(dst_id),
+   CONSTRAINT DESTININSIDEREFERENCE
+   FOREIGN KEY(dst_id) REFERENCES destination(dst_location)
+   ON DELETE CASCADE ON UPDATE CASCADE);
+   
+   
+   
  
  
