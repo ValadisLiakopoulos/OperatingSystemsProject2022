@@ -12,7 +12,7 @@ PRIMARY KEY(branch_code));
 CREATE TABLE phones
 (phones_br_code INT(11) NOT NULL,
 phones_number CHAR(10) NOT NULL,
-PRIMARY KEY(phones_br_code),
+PRIMARY KEY(phones_br_code,phones_number),
 CONSTRAINT BRANCHPHONES 
 FOREIGN KEY(phones_br_code) REFERENCES branch(branch_code));
 
@@ -30,7 +30,7 @@ CREATE TABLE admin
 (admin_AT CHAR(10) NOT NULL,
 admin_type ENUM('LOGISTICS','ADMINISTRATIVE','ACCOUNTING'),
 admin_diploma VARCHAR(200) NOT NULL,
-PRIMARY KEY(admin_A),
+PRIMARY KEY(admin_AT),
 CONSTRAINT ADMINWORKER 
 FOREIGN KEY(admin_AT) REFERENCES worker(worker_AT));
 
@@ -76,7 +76,7 @@ CREATE TABLE trip
  ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE event
-(ev_tr_id INT(11) NOT NULL AUTO_INCREMENT,
+(ev_tr_id INT(11) NOT NULL,
  ev_start DATETIME NOT NULL,
  ev_end DATETIME NOT NULL,
  ev_descr TEXT NOT NULL,
@@ -84,3 +84,27 @@ CREATE TABLE event
  CONSTRAINT TRIPEVENT
  FOREIGN KEY(ev_tr_id) REFERENCES trip(tr_id)
  ON DELETE CASCADE ON UPDATE CASCADE);
+
+CREATE TABLE manages
+(mng_adm_AT CHAR(10) NOT NULL,
+ mng_br_code INT(11) NOT NULL,
+ PRIMARY KEY(mng_adm_AT,mng_br_code),
+ CONSTRAINT ADMINMANAGES
+ FOREIGN KEY(mng_adm_AT) REFERENCES admin(admin_AT),
+ CONSTRAINT MANAGESBRANCH
+ FOREIGN KEY(mng_br_code) REFERENCES branch(branch_code)
+ ON DELETE CASCADE ON UPDATE CASCADE);
+ 
+ CREATE TABLE reservation
+ (res_tr_id INT(11) UNSIGNED NOT NULL,
+  res_seatnum TINYINT(4) UNSIGNED NOT NULL,
+  res_name VARCHAR(20) DEFAULT 'unknown' NOT NULL,
+  res_lname VARCHAR(20) DEFAULT 'unknown' NOT NULL,
+  res_isadult ENUM('ADULT','MINOR'),
+  PRIMARY KEY(res_seatnum),
+  CONSTRAINT TRIPRESERVED
+  FOREIGN KEY(res_tr_id) REFERENCES trip(tr_id)
+  ON DELETE CASCADE ON UPDATE CASCADE);
+  
+ 
+ 
