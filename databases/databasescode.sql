@@ -62,7 +62,7 @@ CREATE TABLE guide
  tr_departure DATETIME NOT NULL,
  tr_return DATETIME NOT NULL,
  tr_maxseats TINYINT(4) NOT NULL,
- tr_cost UNSIGNED FLOAT(7,2) NOT NULL,
+ tr_cost FLOAT(7,2) UNSIGNED NOT NULL,
  tr_br_code INT(11) NOT NULL,
  tr_gui_AT CHAR(10) NOT NULL,
  tr_drv_AT CHAR(10) NOT NULL,
