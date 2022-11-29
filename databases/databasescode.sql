@@ -11,7 +11,7 @@ PRIMARY KEY(branch_code));
 
 CREATE TABLE phones
 (phones_br_code INT(11) UNSIGNED NOT NULL,
-phones_number CHAR(10) UNSIGNED NOT NULL,
+phones_number CHAR(10) NOT NULL,
 PRIMARY KEY(phones_br_code,phones_number),
 CONSTRAINT BRANCHPHONES 
 FOREIGN KEY(phones_br_code) REFERENCES branch(branch_code)
@@ -70,8 +70,8 @@ CREATE TABLE trip
  tr_maxseats TINYINT(4) UNSIGNED NOT NULL,
  tr_cost FLOAT(7,2) UNSIGNED NOT NULL,
  tr_br_code INT(11) UNSIGNED NOT NULL,
- tr_gui_AT CHAR(10) UNSIGNED NOT NULL,
- tr_drv_AT CHAR(10) UNSIGNED NOT NULL,
+ tr_gui_AT CHAR(10) NOT NULL,
+ tr_drv_AT CHAR(10) NOT NULL,
  PRIMARY KEY(tr_id),
  CONSTRAINT BRANCHTRIP
  FOREIGN KEY(tr_br_code) REFERENCES branch(branch_code),
@@ -119,15 +119,18 @@ CREATE TABLE manages
    dst_rtype ENUM('LOCAL','ABROAD') NOT NULL,
    dst_language VARCHAR(30) NOT NULL,
    dst_location INT(11) UNSIGNED NOT NULL,
-   PRIMARY KEY(dst_id),
-   CONSTRAINT DESTININSIDEREFERENCE
-   FOREIGN KEY(dst_id) REFERENCES destination(dst_location)
-   ON DELETE CASCADE ON UPDATE CASCADE);
+   PRIMARY KEY(dst_id));
+   
+   /* ADD SELF REFERENCE OF DESTINATION*/
+   
+   ALTER TABLE destination
+   ADD CONSTRAINT DESTSELFREFERENCE
+   FOREIGN KEY(dst_location) REFERENCES destination(dst_id);
    
    CREATE TABLE travel_to
    (to_tr_id INT(11) UNSIGNED NOT NULL,
     to_dst_id INT(11) UNSIGNED NOT NULL,
-    to arrival DATETIME NOT NULL,
+    to_arrival DATETIME NOT NULL,
     to_departure DATETIME NOT NULL,
     PRIMARY KEY(to_tr_id),
     CONSTRAINT TRIPTRAVELTO
