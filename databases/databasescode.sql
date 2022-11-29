@@ -14,7 +14,8 @@ CREATE TABLE phones
 phones_number CHAR(10) NOT NULL,
 PRIMARY KEY(phones_br_code,phones_number),
 CONSTRAINT BRANCHPHONES 
-FOREIGN KEY(phones_br_code) REFERENCES branch(branch_code));
+FOREIGN KEY(phones_br_code) REFERENCES branch(branch_code)
+ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE worker
 (worker_AT CHAR(10) NOT NULL, 
@@ -24,7 +25,8 @@ worker_salary FLOAT(7,2) NOT NULL,
 worker_br_code INT(11) NOT NULL, 
 PRIMARY KEY(worker_AT),
 CONSTRAINT WORKERBRANCH
-FOREIGN KEY(worker_br_code) REFERENCES branch(branch_code));
+FOREIGN KEY(worker_br_code) REFERENCES branch(branch_code)
+ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE admin
 (admin_AT CHAR(10) NOT NULL,
@@ -32,7 +34,8 @@ admin_type ENUM('LOGISTICS','ADMINISTRATIVE','ACCOUNTING'),
 admin_diploma VARCHAR(200) NOT NULL,
 PRIMARY KEY(admin_AT),
 CONSTRAINT ADMINWORKER 
-FOREIGN KEY(admin_AT) REFERENCES worker(worker_AT));
+FOREIGN KEY(admin_AT) REFERENCES worker(worker_AT)
+ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE driver
 (driver_AT CHAR(10) NOT NULL,
@@ -41,21 +44,24 @@ driver_route ENUM('LOCAL','ABROAD') NOT NULL,
 driver_experience TINYINT(4) NOT NULL,
 PRIMARY KEY(driver_AT),
 CONSTRAINT DRIVERWORKER 
-FOREIGN KEY(driver_AT) REFERENCES worker(worker_AT));
+FOREIGN KEY(driver_AT) REFERENCES worker(worker_AT)
+ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE guide
 (guide_AT CHAR(10) NOT NULL,
 guide_cv TEXT,
 PRIMARY KEY(guide_AT),
 CONSTRAINT GUIDEWORKER 
-FOREIGN KEY(guide_AT) REFERENCES worker(worker_AT));
+FOREIGN KEY(guide_AT) REFERENCES worker(worker_AT)
+ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE languages
 (lng_guide_AT CHAR(10) NOT NULL,
 lng_languages VARCHAR(30) NOT NULL,
 PRIMARY KEY(lng_guide_AT),
 CONSTRAINT GUIDELNGS 
-FOREIGN KEY(lng_guide_AT) REFERENCES guide(guide_AT));
+FOREIGN KEY(lng_guide_AT) REFERENCES guide(guide_AT)
+ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE trip
 (tr_id INT(11) NOT NULL AUTO_INCREMENT,
@@ -101,7 +107,6 @@ CREATE TABLE manages
   res_name VARCHAR(20) DEFAULT 'unknown' NOT NULL,
   res_lname VARCHAR(20) DEFAULT 'unknown' NOT NULL,
   res_isadult ENUM('ADULT','MINOR'),
-  
   PRIMARY KEY(res_seatnum),
   CONSTRAINT TRIPRESERVED
   FOREIGN KEY(res_tr_id) REFERENCES trip(tr_id)
@@ -119,7 +124,18 @@ CREATE TABLE manages
    FOREIGN KEY(dst_id) REFERENCES destination(dst_location)
    ON DELETE CASCADE ON UPDATE CASCADE);
    
-   
+   CREATE TABLE travel_to
+   (to_tr_id INT(11) NOT NULL,
+    to_dst_id INT(11) NOT NULL,
+    to arrival DATETIME NOT NULL,
+    to_departure DATETIME NOT NULL,
+    PRIMARY KEY(to_tr_id),
+    CONSTRAINT TRIPTRAVELTO
+    FOREIGN KEY(to_tr_id) REFERENCES trip(tr_id),
+    CONSTRAINT TRAVELTODESTINATION
+    FOREIGN KEY(to_dst_id) REFERENCES destination(dst_id)
+    ON DELETE CASCADE ON UPDATE CASCADE);
+    
    
  
  
