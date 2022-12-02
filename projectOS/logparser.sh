@@ -22,13 +22,10 @@ case $inputv in
 	-)
 		grep '1 - - ' access.log
 		;;
-
 	admin)
 		grep ' admin  ' access.log
 		;;
 	root)
-		
-	
 		grep ' root ' access.log
 		;;
 	user1)
